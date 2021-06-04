@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31313.79
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAccounting.UI", "HomeAccounting.UI\HomeAccounting.UI.csproj", "{057D63F9-B5F5-4BC7-A392-48CD83F1379D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAccounting.Console", "HomeAccounting.Console\HomeAccounting.Console.csproj", "{D8CF7262-32C4-4F25-BE0B-C7EB00DC208C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{057D63F9-B5F5-4BC7-A392-48CD83F1379D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{057D63F9-B5F5-4BC7-A392-48CD83F1379D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{057D63F9-B5F5-4BC7-A392-48CD83F1379D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{057D63F9-B5F5-4BC7-A392-48CD83F1379D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8CF7262-32C4-4F25-BE0B-C7EB00DC208C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8CF7262-32C4-4F25-BE0B-C7EB00DC208C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8CF7262-32C4-4F25-BE0B-C7EB00DC208C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8CF7262-32C4-4F25-BE0B-C7EB00DC208C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {80801671-F0DF-4985-B065-75B949F136F7}
+	EndGlobalSection
+EndGlobal
