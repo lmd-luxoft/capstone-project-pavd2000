@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HomeAccounting.BusinesLogic.Cintract\HomeAccounting.BusinesLogic.Contract.csproj" />
+    <ProjectReference Include="..\HomeAccounting.DataSource.Contract\HomeAccounting.DataSource.Contract.csproj" />
+  </ItemGroup>
+
+</Project>
