@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HomeAccounting.BusinesLogic.Contract
+namespace HomeAccounting.DataSource.Contract
 {
-    public class Account
+    public class DbAccount
     {
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
