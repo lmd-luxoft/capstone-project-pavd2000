@@ -14,6 +14,14 @@ namespace HomeAccounting.BusinesLogic.EF
             }
         }
 
+        public string Title
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public string CorrAccount
         {
             get => default;

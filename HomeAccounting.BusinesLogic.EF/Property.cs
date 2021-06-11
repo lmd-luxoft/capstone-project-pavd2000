@@ -14,7 +14,16 @@ namespace HomeAccounting.BusinesLogic.EF
             }
         }
 
-        public int Location
+        public string Location
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+
+        public PropertyType Type
         {
             get => default;
             set

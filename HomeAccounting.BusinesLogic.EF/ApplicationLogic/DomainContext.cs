@@ -8,7 +8,7 @@ namespace HomeAccounting.BusinesLogic.EF.ApplicationLogic
     public class DomainContext: DbContext
     {
 
-        private string _connectionString = "Server=pvd;Database=EducationEF;User Id=test;Password=test;";
+        private string _connectionString = "Server=localhost;Database=EducationEF;User Id=test;Password=test;";
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Bank> Banks { get; set; }
 
@@ -43,10 +43,10 @@ namespace HomeAccounting.BusinesLogic.EF.ApplicationLogic
 
             modelBuilder.Entity<Account>().HasKey(x=>x.Id);
             modelBuilder.Entity<Bank>().HasKey(x => x.Id);
-            modelBuilder.Entity<Deposit>();
-            modelBuilder.Entity<Cash>();
+            modelBuilder.Entity<Deposit>().ToTable("Deposites");
+            modelBuilder.Entity<Cash>().ToTable("Cashes");
             modelBuilder.Entity<Operation>().HasMany<Account>(x=>x.Accounts);
-            modelBuilder.Entity<Property>().HasMany<PropertyPriceChange>(x => x.PropertyPriceChanges); 
+            modelBuilder.Entity<Property>().ToTable("Properties").HasMany<PropertyPriceChange>(x => x.PropertyPriceChanges); 
             modelBuilder.Entity<PropertyPriceChange>();
             
         }
