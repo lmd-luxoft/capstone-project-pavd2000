@@ -9,15 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAccounting.Console", "H
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAccounting.BusinesLogic.Contract", "HomeAccounting.BusinesLogic.Cintract\HomeAccounting.BusinesLogic.Contract.csproj", "{7B3112E8-C506-4034-B222-855ED61D38C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAccounting.BusinesLogic", "HomeAccounting.BusinesLogic\HomeAccounting.BusinesLogic.csproj", "{A8FCD01A-B2AD-4645-95F8-5D90327F6AF7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAccounting.DataSource.Contract", "HomeAccounting.DataSource.Contract\HomeAccounting.DataSource.Contract.csproj", "{C623C5CA-7571-4CD9-BACE-B949406C61F8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAccounting.DataSource", "HomeAccounting.DataSource\HomeAccounting.DataSource.csproj", "{155A2D88-7BFD-4929-B1EA-5EBBF7CCCD33}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAccounting.CompositionRoot", "HomeAccounting.CompositionRoot\HomeAccounting.CompositionRoot.csproj", "{8958C104-9536-4394-B3C9-50FC3A7ACD96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAccounting.BusinesLogic.EF", "HomeAccounting.BusinesLogic.EF\HomeAccounting.BusinesLogic.EF.csproj", "{462A3CD8-8524-4571-98A9-67EA2AC833F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAccounting.BusinesLogic.EF", "HomeAccounting.BusinesLogic.EF\HomeAccounting.BusinesLogic.EF.csproj", "{462A3CD8-8524-4571-98A9-67EA2AC833F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAccounting.Tests", "HomeAccounting.Tests\HomeAccounting.Tests.csproj", "{0EC86E2E-FD48-4983-A334-259775E1B62F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,18 +33,6 @@ Global
 		{7B3112E8-C506-4034-B222-855ED61D38C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B3112E8-C506-4034-B222-855ED61D38C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B3112E8-C506-4034-B222-855ED61D38C2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8FCD01A-B2AD-4645-95F8-5D90327F6AF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8FCD01A-B2AD-4645-95F8-5D90327F6AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8FCD01A-B2AD-4645-95F8-5D90327F6AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8FCD01A-B2AD-4645-95F8-5D90327F6AF7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C623C5CA-7571-4CD9-BACE-B949406C61F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C623C5CA-7571-4CD9-BACE-B949406C61F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C623C5CA-7571-4CD9-BACE-B949406C61F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C623C5CA-7571-4CD9-BACE-B949406C61F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{155A2D88-7BFD-4929-B1EA-5EBBF7CCCD33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{155A2D88-7BFD-4929-B1EA-5EBBF7CCCD33}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{155A2D88-7BFD-4929-B1EA-5EBBF7CCCD33}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{155A2D88-7BFD-4929-B1EA-5EBBF7CCCD33}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8958C104-9536-4394-B3C9-50FC3A7ACD96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8958C104-9536-4394-B3C9-50FC3A7ACD96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8958C104-9536-4394-B3C9-50FC3A7ACD96}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +41,10 @@ Global
 		{462A3CD8-8524-4571-98A9-67EA2AC833F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{462A3CD8-8524-4571-98A9-67EA2AC833F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{462A3CD8-8524-4571-98A9-67EA2AC833F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EC86E2E-FD48-4983-A334-259775E1B62F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EC86E2E-FD48-4983-A334-259775E1B62F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EC86E2E-FD48-4983-A334-259775E1B62F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EC86E2E-FD48-4983-A334-259775E1B62F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

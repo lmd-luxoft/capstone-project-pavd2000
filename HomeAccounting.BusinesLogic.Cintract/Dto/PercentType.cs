@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HomeAccounting.BusinesLogic.EF
+namespace HomeAccounting.BusinesLogic.Contract.Dto
 {
     public enum PercentType
     {

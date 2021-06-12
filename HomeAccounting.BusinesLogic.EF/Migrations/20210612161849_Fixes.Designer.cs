@@ -4,14 +4,16 @@ using HomeAccounting.BusinesLogic.EF.ApplicationLogic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeAccounting.BusinesLogic.EF.Migrations
 {
     [DbContext(typeof(DomainContext))]
-    partial class DomainContextModelSnapshot : ModelSnapshot
+    [Migration("20210612161849_Fixes")]
+    partial class Fixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,7 +140,7 @@ namespace HomeAccounting.BusinesLogic.EF.Migrations
                     b.Property<decimal>("Percent")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("PercentType")
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasIndex("BankId");

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HomeAccounting.BusinesLogic.Contract
+namespace HomeAccounting.BusinesLogic.Contract.Dto
 {
-    public class Account
+    public class BankModel
     {
         public int Id { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string BIK { get; set; }
         public string Title { get; set; }
-
+        public string CorrAccount { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeAccounting.BusinesLogic.EF.Migrations
 {
     [DbContext(typeof(DomainContext))]
-    [Migration("20210611135054_ChangeBank")]
-    partial class ChangeBank
+    [Migration("20210612180048_Fixes2")]
+    partial class Fixes2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace HomeAccounting.BusinesLogic.EF.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Account", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,20 +34,15 @@ namespace HomeAccounting.BusinesLogic.EF.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OperationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OperationId");
-
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Bank", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.Bank", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,7 +63,7 @@ namespace HomeAccounting.BusinesLogic.EF.Migrations
                     b.ToTable("Banks");
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Operation", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.Operation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,12 +76,22 @@ namespace HomeAccounting.BusinesLogic.EF.Migrations
                     b.Property<DateTime>("ExecutionDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("FromAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ToAccountId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("FromAccountId");
+
+                    b.HasIndex("ToAccountId");
 
                     b.ToTable("Operations");
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.PropertyPriceChange", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.PropertyPriceChange", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,9 +114,9 @@ namespace HomeAccounting.BusinesLogic.EF.Migrations
                     b.ToTable("PriceChanges");
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Cash", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.Cash", b =>
                 {
-                    b.HasBaseType("HomeAccounting.BusinesLogic.EF.Account");
+                    b.HasBaseType("HomeAccounting.BusinesLogic.EF.Domain.Account");
 
                     b.Property<int>("Banknotes")
                         .HasColumnType("int");
@@ -122,9 +127,9 @@ namespace HomeAccounting.BusinesLogic.EF.Migrations
                     b.ToTable("Cashes");
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Deposit", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.Deposit", b =>
                 {
-                    b.HasBaseType("HomeAccounting.BusinesLogic.EF.Account");
+                    b.HasBaseType("HomeAccounting.BusinesLogic.EF.Domain.Account");
 
                     b.Property<int?>("BankId")
                         .HasColumnType("int");
@@ -135,7 +140,7 @@ namespace HomeAccounting.BusinesLogic.EF.Migrations
                     b.Property<decimal>("Percent")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("PercentType")
                         .HasColumnType("int");
 
                     b.HasIndex("BankId");
@@ -143,72 +148,78 @@ namespace HomeAccounting.BusinesLogic.EF.Migrations
                     b.ToTable("Deposites");
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Property", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.Property", b =>
                 {
-                    b.HasBaseType("HomeAccounting.BusinesLogic.EF.Account");
+                    b.HasBaseType("HomeAccounting.BusinesLogic.EF.Domain.Account");
 
-                    b.Property<int>("BasePrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("BasePrice")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Location")
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.ToTable("Properties");
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Account", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.Operation", b =>
                 {
-                    b.HasOne("HomeAccounting.BusinesLogic.EF.Operation", null)
-                        .WithMany("Accounts")
-                        .HasForeignKey("OperationId");
+                    b.HasOne("HomeAccounting.BusinesLogic.EF.Domain.Account", "FromAccount")
+                        .WithMany()
+                        .HasForeignKey("FromAccountId");
+
+                    b.HasOne("HomeAccounting.BusinesLogic.EF.Domain.Account", "ToAccount")
+                        .WithMany()
+                        .HasForeignKey("ToAccountId");
+
+                    b.Navigation("FromAccount");
+
+                    b.Navigation("ToAccount");
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.PropertyPriceChange", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.PropertyPriceChange", b =>
                 {
-                    b.HasOne("HomeAccounting.BusinesLogic.EF.Property", null)
+                    b.HasOne("HomeAccounting.BusinesLogic.EF.Domain.Property", null)
                         .WithMany("PropertyPriceChanges")
                         .HasForeignKey("PropertyId");
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Cash", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.Cash", b =>
                 {
-                    b.HasOne("HomeAccounting.BusinesLogic.EF.Account", null)
+                    b.HasOne("HomeAccounting.BusinesLogic.EF.Domain.Account", null)
                         .WithOne()
-                        .HasForeignKey("HomeAccounting.BusinesLogic.EF.Cash", "Id")
+                        .HasForeignKey("HomeAccounting.BusinesLogic.EF.Domain.Cash", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Deposit", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.Deposit", b =>
                 {
-                    b.HasOne("HomeAccounting.BusinesLogic.EF.Bank", "Bank")
+                    b.HasOne("HomeAccounting.BusinesLogic.EF.Domain.Bank", "Bank")
                         .WithMany()
                         .HasForeignKey("BankId");
 
-                    b.HasOne("HomeAccounting.BusinesLogic.EF.Account", null)
+                    b.HasOne("HomeAccounting.BusinesLogic.EF.Domain.Account", null)
                         .WithOne()
-                        .HasForeignKey("HomeAccounting.BusinesLogic.EF.Deposit", "Id")
+                        .HasForeignKey("HomeAccounting.BusinesLogic.EF.Domain.Deposit", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("Bank");
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Property", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.Property", b =>
                 {
-                    b.HasOne("HomeAccounting.BusinesLogic.EF.Account", null)
+                    b.HasOne("HomeAccounting.BusinesLogic.EF.Domain.Account", null)
                         .WithOne()
-                        .HasForeignKey("HomeAccounting.BusinesLogic.EF.Property", "Id")
+                        .HasForeignKey("HomeAccounting.BusinesLogic.EF.Domain.Property", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Operation", b =>
-                {
-                    b.Navigation("Accounts");
-                });
-
-            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Property", b =>
+            modelBuilder.Entity("HomeAccounting.BusinesLogic.EF.Domain.Property", b =>
                 {
                     b.Navigation("PropertyPriceChanges");
                 });

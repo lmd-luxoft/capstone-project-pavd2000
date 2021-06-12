@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HomeAccounting.BusinesLogic.EF.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,13 +23,13 @@ namespace HomeAccounting.BusinesLogic.EF.ApplicationLogic
 
         public DbSet<Deposit> Deposites { get; set; }
 
-        public DomainContext()
-        {
-            //Database.EnsureDeleted();
-        }
-        public DomainContext(DbContextOptions<DomainContext> options) : base(options)
-        {
-        }
+        //public DomainContext()
+        //{
+        //    //Database.EnsureDeleted();
+        //}
+        //public DomainContext(DbContextOptions<DomainContext> options) : base(options)
+        //{
+        //}
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -41,12 +42,12 @@ namespace HomeAccounting.BusinesLogic.EF.ApplicationLogic
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Account>().HasKey(x=>x.Id);
-            modelBuilder.Entity<Bank>().HasKey(x => x.Id);
+            modelBuilder.Entity<Account>();
+            modelBuilder.Entity<Bank>();
             modelBuilder.Entity<Deposit>().ToTable("Deposites");
             modelBuilder.Entity<Cash>().ToTable("Cashes");
-            modelBuilder.Entity<Operation>().HasMany<Account>(x=>x.Accounts);
-            modelBuilder.Entity<Property>().ToTable("Properties").HasMany<PropertyPriceChange>(x => x.PropertyPriceChanges); 
+            modelBuilder.Entity<Operation>();
+            modelBuilder.Entity<Property>().ToTable("Properties"); 
             modelBuilder.Entity<PropertyPriceChange>();
             
         }

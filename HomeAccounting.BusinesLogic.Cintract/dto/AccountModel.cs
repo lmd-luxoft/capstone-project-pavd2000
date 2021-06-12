@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HomeAccounting.BusinesLogic.Contract.dto
+namespace HomeAccounting.BusinesLogic.Contract.Dto
 {
     public class AccountModel
     {
+        public AccountModel()
+        {
+            Type = AccountType.Simple;
+        }
+        public  int Id { get; set; }
         public string Title { get; set; }
-        public decimal Amount { get; set; }
-
-        public Object[] Params { get; set; }
-
+        public decimal Balance { get; set; }
+        public DateTime CreationDate { get; set; }
         public AccountType Type { get; set; }
     }
 

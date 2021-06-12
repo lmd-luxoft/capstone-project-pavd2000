@@ -1,4 +1,5 @@
 ﻿using HomeAccounting.BusinesLogic.Contract;
+using HomeAccounting.BusinesLogic.Contract.Dto;
 using HomeAccounting.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,10 +14,10 @@ namespace HomeAccounting.UI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IAccounting _accountingService;
+        private readonly IAccountingService _accountingService;
 
 
-        public HomeController(ILogger<HomeController> logger, IAccounting accountingService)
+        public HomeController(ILogger<HomeController> logger, IAccountingService accountingService)
         {
             _logger = logger;
             _accountingService = accountingService;
@@ -35,10 +36,11 @@ namespace HomeAccounting.UI.Controllers
         public IActionResult CreateAccount()
         {
 
-            _accountingService.CreateAccount(new Account()
+            _accountingService.CreateAccount(new AccountModel()
             {
                 Title = "test",
-                CreationDate = DateTime.Now
+                CreationDate = DateTime.Now,
+                Balance = 12.34M
             });
 
             return Json(new { status = true });
