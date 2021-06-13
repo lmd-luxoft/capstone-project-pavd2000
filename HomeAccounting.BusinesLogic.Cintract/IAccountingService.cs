@@ -8,9 +8,9 @@ namespace HomeAccounting.BusinesLogic.Contract
     public interface IAccountingService
     {
         void CreateAccount(AccountModel account);
-        AccountModel GetAccountById(int id);
         void UpdateAccount(AccountModel account);
         void DeleteAccountById(int id);
+        AccountModel GetAccountById(int id);
         List<AccountModel> SelectByFilter(AccountModelFilter filter);
 
     }

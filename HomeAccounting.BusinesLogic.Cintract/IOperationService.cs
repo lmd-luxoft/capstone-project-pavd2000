@@ -7,6 +7,10 @@ namespace HomeAccounting.BusinesLogic.Contract
 {
     public interface IOperationService
     {
-        void CreateOperation(OperationModel account);
+        void Create(OperationModel operationModel);
+        void Update(OperationModel operationModel);
+        void DeleteById(int id);
+        OperationModel GetById(int id);
+        List<OperationModel> SelectByFilter(OperationModelFilter filter);
     }
 }

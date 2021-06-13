@@ -18,6 +18,7 @@ namespace HomeAccounting.CompositionRoot
         protected override void RegisterBusinesLogic()
         {
             _services.AddTransient<IAccountingService, AccountingService>();
+            _services.AddTransient<IOperationService, OperationService>();
         }
 
         protected override void RegisterDataSource()

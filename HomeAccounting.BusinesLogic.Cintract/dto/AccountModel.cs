@@ -13,7 +13,7 @@ namespace HomeAccounting.BusinesLogic.Contract.Dto
         public  int Id { get; set; }
         public string Title { get; set; }
         public decimal Balance { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; } = DateTime.Now;
         public AccountType Type { get; set; }
     }
 

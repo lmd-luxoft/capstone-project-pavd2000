@@ -14,6 +14,7 @@ namespace HomeAccounting.Tests
     {
         IServiceProvider _serviceProvider;
         IAccountingService _accountingService;
+        IOperationService _operationService;
         IDbContextFactory<DomainContext> _contextFactory;
 
         [SetUp]
@@ -24,6 +25,7 @@ namespace HomeAccounting.Tests
             app.Buid();
             _serviceProvider = services.BuildServiceProvider();
             _accountingService = _serviceProvider.GetRequiredService<IAccountingService>();
+            _operationService = _serviceProvider.GetRequiredService<IOperationService>();
             _contextFactory = _serviceProvider.GetRequiredService<IDbContextFactory<DomainContext>>();
         }
 
@@ -67,6 +69,7 @@ namespace HomeAccounting.Tests
                 Banknotes = 5,
                 Monets = 6
             };
+
             _accountingService.CreateAccount(accountModel);
             Assert.IsTrue(accountModel.Id > 0);
 
@@ -116,11 +119,152 @@ namespace HomeAccounting.Tests
         }
 
         [Test]
-        public void SelectByFilterTest()
+        public void SelectAccountsByFilterTest()
         {
             var accouts = _accountingService.SelectByFilter(new AccountModelFilter());
             Assert.True(accouts.Count > 0);
         }
+
+
+        [Test]
+        public void OperationCrudTest()
+        {
+            var accountModel1 = new AccountModel()
+            {
+                Title = "For Operation Account 1",
+                CreationDate = DateTime.Now,
+                Balance = 12.34M,
+                Type = AccountType.Simple
+            };
+            _accountingService.CreateAccount(accountModel1);
+            Assert.IsTrue(accountModel1.Id > 0);
+
+            var accountModel2 = new AccountModel()
+            {
+                Title = "For Operation Account 2",
+                CreationDate = DateTime.Now,
+                Balance = 23.45M,
+                Type = AccountType.Simple
+            };
+            _accountingService.CreateAccount(accountModel2);
+            Assert.IsTrue(accountModel2.Id > 0);
+
+            var operationModel = new OperationModel
+            {
+                FromAccount = accountModel1,
+                ToAccount = accountModel2,
+                Amount = 7.65M,
+                ExecutionDate = DateTime.Now
+            };
+
+            _operationService.Create(operationModel);
+
+            Assert.IsTrue(operationModel.Id > 0);
+
+            var operationModel2 = _operationService.GetById(operationModel.Id);
+            Assert.NotNull(operationModel2);
+
+            var list = _operationService.SelectByFilter(new OperationModelFilter());
+            Assert.IsTrue(list.Count > 0);
+
+            _operationService.DeleteById(operationModel.Id);
+
+            var operationModel3 = _operationService.GetById(operationModel.Id);
+            Assert.Null(operationModel3);
+        }
+
+        [Test]
+        [Ignore("Использовать для массовой генерации проводок")]
+        public void CreateOperationsTest()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                var accountModel1 = new CashModel()
+                {
+                    Title = "CashTest",
+                    CreationDate = DateTime.Now,
+                    Balance = 12.34M,
+                    Banknotes = 5,
+                    Monets = 6
+                };
+
+                _accountingService.CreateAccount(accountModel1);
+                Assert.IsTrue(accountModel1.Id > 0);
+
+                var accountModel2 = new DepositModel()
+                {
+                    Title = "DepositTest",
+                    CreationDate = DateTime.Now,
+                    Balance = 12.34M,
+                    NumberOfBankAccount = "0000000000000000000",
+                    Bank = new BankModel()
+                    {
+                        BIK = "044525555",
+                        Title = "ПСБ"
+                    },
+                    Percent = 0.05M,
+                    PercentType = PercentType.Fixed
+                };
+                _accountingService.CreateAccount(accountModel2);
+                Assert.IsTrue(accountModel2.Id > 0);
+
+                var accountModel3 = new PropertyModel()
+                {
+                    Title = "PropertyTest",
+                    CreationDate = DateTime.Now,
+                    Balance = 23.45M,
+                    Location = "Test Location",
+                    BasePrice = 34.56M,
+                    PropertyType = PropertyType.Movable
+                };
+                _accountingService.CreateAccount(accountModel3);
+                Assert.IsTrue(accountModel3.Id > 0);
+
+                var operationModel = new OperationModel
+                {
+                    FromAccount = accountModel1,
+                    ToAccount = accountModel2,
+                    Amount = 1M,
+                    ExecutionDate = DateTime.Now
+                };
+
+                _operationService.Create(operationModel);
+
+                var operationModel2 = new OperationModel
+                {
+                    FromAccount = accountModel2,
+                    ToAccount = accountModel1,
+                    Amount = 1M,
+                    ExecutionDate = DateTime.Now
+                };
+                _operationService.Create(operationModel2);
+                Assert.IsTrue(operationModel2.Id > 0);
+
+                var operationModel3 = new OperationModel
+                {
+                    FromAccount = accountModel3,
+                    ToAccount = accountModel1,
+                    Amount = 1M,
+                    ExecutionDate = DateTime.Now
+                };
+
+                _operationService.Create(operationModel3);
+
+                var operationModel4 = new OperationModel
+                {
+                    FromAccount = accountModel2,
+                    ToAccount = accountModel3,
+                    Amount = 1M,
+                    ExecutionDate = DateTime.Now
+                };
+                _operationService.Create(operationModel4);
+
+                var list = _operationService.SelectByFilter(new OperationModelFilter());
+                Assert.IsTrue(list.Count > 0);
+            }
+        }
+
+
 
     }
 }
