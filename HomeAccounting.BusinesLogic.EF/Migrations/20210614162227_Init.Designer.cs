@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeAccounting.BusinesLogic.EF.Migrations
 {
     [DbContext(typeof(DomainContext))]
-    [Migration("20210612180048_Fixes2")]
-    partial class Fixes2
+    [Migration("20210614162227_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
