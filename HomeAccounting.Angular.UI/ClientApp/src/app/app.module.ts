@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { OperationsComponent } from './operations/operations.component';
 import { AccountsComponent } from './accounts/accounts.component';
+import { AccountEditComponent } from './accounts/account.edit.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { AccountsComponent } from './accounts/accounts.component';
     HomeComponent,
     CounterComponent,
     OperationsComponent,
-    AccountsComponent
+    AccountsComponent,
+    AccountEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,6 +32,8 @@ import { AccountsComponent } from './accounts/accounts.component';
       { path: 'counter', component: CounterComponent },
       { path: 'operations', component: OperationsComponent },
       { path: 'accounts', component: AccountsComponent },
+      { path: 'accounts/:id', component: AccountEditComponent },
+
     ])
   ],
   providers: [],

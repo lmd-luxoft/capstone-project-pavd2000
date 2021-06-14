@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 namespace HomeAccounting.Angular.UI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class OperationsController : ControllerBase
     {
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<OperationsController> _logger;
         private readonly IOperationService _operationService;
 
-        public OperationsController(ILogger<WeatherForecastController> logger, IOperationService operationService)
+        public OperationsController(ILogger<OperationsController> logger, IOperationService operationService)
         {
             _logger = logger;
             _operationService = operationService;

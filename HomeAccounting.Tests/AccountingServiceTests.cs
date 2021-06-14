@@ -174,7 +174,7 @@ namespace HomeAccounting.Tests
         }
 
         [Test]
-        //[Ignore("»спользовать дл€ массовой генерации проводок")]
+        [Ignore("»спользовать дл€ массовой генерации проводок")]
         public void CreateOperationsTest()
         {
             for (int i = 0; i < 10; i++)

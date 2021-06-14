@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace HomeAccounting.Angular.UI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AccountsController : ControllerBase
     {
 
@@ -27,6 +27,18 @@ namespace HomeAccounting.Angular.UI.Controllers
         public IEnumerable<AccountModel> Get()
         {
             return _accountsService.SelectByFilter(new AccountModelFilter());
+        }
+
+        [HttpGet("{id:int}")]
+        public AccountModel Get(int id)
+        {
+            return _accountsService.GetAccountById(id);
+        }
+
+        [HttpPost("{id:int}")]
+        public void Post(AccountModel model)
+        {
+             _accountsService.UpdateAccount(model);
         }
     }
 }

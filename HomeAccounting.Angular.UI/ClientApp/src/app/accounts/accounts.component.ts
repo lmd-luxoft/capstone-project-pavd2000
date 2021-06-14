@@ -11,7 +11,7 @@ export class AccountsComponent {
   public accounts: AccountModel[];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<AccountModel[]>(baseUrl + 'accounts').subscribe(result => {
+    http.get<AccountModel[]>(baseUrl + 'api/accounts').subscribe(result => {
       this.accounts = result;
     }, error => console.error(error));
   }

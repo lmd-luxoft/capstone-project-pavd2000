@@ -11,7 +11,7 @@ export class OperationsComponent {
   public operations: OperationModel[];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<OperationModel[]>(baseUrl + 'operations').subscribe(result => {
+    http.get<OperationModel[]>(baseUrl + 'api/operations').subscribe(result => {
       this.operations = result;
     }, error => console.error(error));
   }
@@ -30,7 +30,7 @@ export class OperationsComponent {
       return 'Cash'
     }
 
-    return 'zzzz';
+    return '';
   }
 
 }

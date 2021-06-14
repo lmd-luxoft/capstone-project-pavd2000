@@ -11,6 +11,7 @@
       <th>Balance</th>
       <th>CreationDate</th>
       <th>Type</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +21,7 @@
       <td>{{ o.Balance }}</td>
       <td>{{ o.CreationDate}}</td>
       <td>{{TypeDescription(o.Type)}}</td>
-    </tr>
+      <td><a [routerLink]="[o.Id]">edit</a></td>
+</tr>
   </tbody>
 </table>

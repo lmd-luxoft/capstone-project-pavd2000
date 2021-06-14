@@ -1,25 +1,10 @@
-<!--<h1 id="tableLabel">Счета</h1>
 
 
-<p *ngIf="!accounts"><em>Загрузка...</em></p>
+    <div *ngIf="account" class="form-group">
+      <label for="title">Title </label>
+      <input id="title" [(ngModel)]="account.Title">
+    </div>
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="accounts">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Title</th>
-      <th>Balance</th>
-      <th>CreationDate</th>
-      <th>Type</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let o of accounts">
-      <td>{{ o.Id }}</td>
-      <td>{{ o.Title }}</td>
-      <td>{{ o.Balance }}</td>
-      <td>{{ o.CreationDate}}</td>
-      <td>{{TypeDescription(o.Type)}}</td>
-    </tr>
-  </tbody>
-</table>-->
+<button (click)="Save()">Сохранить</button>
+
+
