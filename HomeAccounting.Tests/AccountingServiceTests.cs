@@ -174,7 +174,7 @@ namespace HomeAccounting.Tests
         }
 
         [Test]
-       // [Ignore("»спользовать дл€ массовой генерации проводок")]
+        [Ignore("»спользовать дл€ массовой генерации проводок")]
         public void CreateOperationsTest()
         {
             for (int i = 0; i < 10; i++)
@@ -264,7 +264,12 @@ namespace HomeAccounting.Tests
             }
         }
 
-
+        [Test]
+        public void AccountBalanceReportTest()
+        {
+            var balance = _operationService.AccountBalanceReport(28);
+            Assert.NotNull(balance);
+        }
 
     }
 }
