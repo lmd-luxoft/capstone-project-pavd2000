@@ -10,9 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HomeAccounting.BusinesLogic.Cintract\HomeAccounting.BusinesLogic.Contract.csproj" />
-    <ProjectReference Include="..\HomeAccounting.BusinesLogic\HomeAccounting.BusinesLogic.csproj" />
-    <ProjectReference Include="..\HomeAccounting.DataSource.Contract\HomeAccounting.DataSource.Contract.csproj" />
-    <ProjectReference Include="..\HomeAccounting.DataSource\HomeAccounting.DataSource.csproj" />
+    <ProjectReference Include="..\HomeAccounting.BusinesLogic.EF\HomeAccounting.BusinesLogic.EF.csproj" />
   </ItemGroup>
 
 </Project>

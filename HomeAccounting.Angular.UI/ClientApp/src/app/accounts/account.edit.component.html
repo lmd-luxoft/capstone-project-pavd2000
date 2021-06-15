@@ -1,0 +1,10 @@
+<form #accountForm="ngForm">
+
+  <div *ngIf="account" class="form-group">
+    <label for="title">Title </label>
+    <input [(ngModel)]="account.Title" name="title" class="form-control" required>
+  </div>
+
+  <button (click)="Save()" [disabled]="!accountForm.form.valid">Сохранить</button>
+
+  </form>
