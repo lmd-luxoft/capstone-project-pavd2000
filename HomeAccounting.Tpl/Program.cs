@@ -7,10 +7,10 @@ namespace HomeAccounting.Tpl
 {
     class Program
     {
-        public const int mtMax = 24;
+        public const int mtMax = 4;
         static void Main(string[] args)
         {
-            var array1 = GenerateArray(10000000); // new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };  //;
+            var array1 = GenerateArray(1000); // new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };  //;
             var array2 = new int[array1.Length];
              Array.Copy(array1, array2, array1.Length);
 
