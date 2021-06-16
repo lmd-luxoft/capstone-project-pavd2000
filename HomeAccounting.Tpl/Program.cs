@@ -7,12 +7,13 @@ namespace HomeAccounting.Tpl
 {
     class Program
     {
+        public const int mtMax = 24;
         static void Main(string[] args)
         {
-            var array1 = GenerateArray(1000000); // new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };  //;
+            var array1 = GenerateArray(10000000); // new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };  //;
             var array2 = new int[array1.Length];
              Array.Copy(array1, array2, array1.Length);
-            //GenerateArray(1000);
+
             MergeSortArray(array1);
             MergeSortArrayMT(array2);
             //QuadraticEquation();
@@ -20,12 +21,12 @@ namespace HomeAccounting.Tpl
             Console.ReadKey();
         }
 
-
+        
 
         public static void MergeSortArrayMT(int[] array)
         {
             var initialDate = DateTime.Now;
-            Console.WriteLine($"start MergeSortArrayMT");
+            Console.WriteLine($"start MergeSortArrayMT. array length: {array.Length}. max tasks: {mtMax}");
             //var array = GenerateArray(100);///new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };
            // Console.WriteLine($"initial array: {string.Join(", ", array)}");
             var resultingArray = MergeSortMT(array);
@@ -49,7 +50,7 @@ namespace HomeAccounting.Tpl
         public static void MergeSortArray(int[] array)
         {
             var initialDate = DateTime.Now;
-            Console.WriteLine($"start MergeSortArray");
+            Console.WriteLine($"start MergeSortArray. array length: {array.Length}");
            // var array = new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };
             //Console.WriteLine($"initial array: {string.Join(", ", array)}");
             var resultingArray = MergeSort(array);
@@ -204,7 +205,7 @@ namespace HomeAccounting.Tpl
             return array;
         }
 
-        public static int mtCount;
+        private static int mtCount = 0;
 
         //сортировка слиянием многопоточная
         static int[] MergeSortMT(int[] array, int lowIndex, int highIndex)
@@ -213,7 +214,7 @@ namespace HomeAccounting.Tpl
             {
                 var middleIndex = (lowIndex + highIndex) / 2;
 
-                if (mtCount <= 4)
+                if (mtCount < mtMax)
                 {
                     var t1 = new Task(() => { MergeSortMT(array, lowIndex, middleIndex); });
                     var t2 = new Task(() => { MergeSortMT(array, middleIndex + 1, highIndex); });
