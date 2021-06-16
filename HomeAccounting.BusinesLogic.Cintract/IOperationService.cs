@@ -12,5 +12,7 @@ namespace HomeAccounting.BusinesLogic.Contract
         void DeleteById(int id);
         OperationModel GetById(int id);
         List<OperationModel> SelectByFilter(OperationModelFilter filter);
+
+        decimal AccountBalanceReport(int accountId);
     }
 }
