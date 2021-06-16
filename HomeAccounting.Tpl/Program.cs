@@ -8,30 +8,44 @@ namespace HomeAccounting.Tpl
     {
         static void Main(string[] args)
         {
-
-            MergeSortArray();
-            MergeSortArrayMT();
+            var array = GenerateArray(100);
+            MergeSortArray(array);
+            MergeSortArrayMT(array);
             //QuadraticEquation();
             Console.WriteLine("Press any key to exit the process...");
             Console.ReadKey();
         }
 
-        public static void MergeSortArrayMT()
+
+
+        public static void MergeSortArrayMT(int[] array)
         {
             var initialDate = DateTime.Now;
             Console.WriteLine($"start MergeSortArrayMT");
-            var array = new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };
+            //var array = GenerateArray(100);///new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };
             Console.WriteLine($"initial array: {string.Join(", ", array)}");
             var resultingArray = MergeSortMT(array);
             var finalDate = DateTime.Now;
             Console.WriteLine($"Run tyme (millisec): {(finalDate - initialDate).TotalMilliseconds}; sorted array: { string.Join(", ", resultingArray)}");
         }
 
-        public static void MergeSortArray()
+        public static int[] GenerateArray(int n)
+        {
+            var rnd = new Random();
+            var res = new int[n];
+
+            for(var i = 0; i < n; i++)
+            {
+                res[i] = rnd.Next();
+            }
+            return res;
+        }
+
+        public static void MergeSortArray(int[] array)
         {
             var initialDate = DateTime.Now;
             Console.WriteLine($"start MergeSortArray");
-            var array = new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };
+           // var array = new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };
             Console.WriteLine($"initial array: {string.Join(", ", array)}");
             var resultingArray = MergeSort(array);
             var finalDate = DateTime.Now;
