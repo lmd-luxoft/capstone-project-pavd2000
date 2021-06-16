@@ -7,10 +7,10 @@ namespace HomeAccounting.Tpl
 {
     class Program
     {
-        public const int mtMax = 4;
+        public const int mtMax = 3;
         static void Main(string[] args)
         {
-            var array1 = GenerateArray(1000); // new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };  //;
+            var array1 = GenerateArray(10000000); // new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };  //;
             var array2 = new int[array1.Length];
              Array.Copy(array1, array2, array1.Length);
 
@@ -208,16 +208,15 @@ namespace HomeAccounting.Tpl
         private static int mtCount = 0;
 
         //сортировка слиянием многопоточная
-        static int[] MergeSortMT(int[] array, int lowIndex, int highIndex)
+        static int[] MergeSortMT(int[] array, int lowIndex, int highIndex, bool noTasks= false)
         {
             if (lowIndex < highIndex)
             {
                 var middleIndex = (lowIndex + highIndex) / 2;
-
-                if (mtCount < mtMax)
+                if (!noTasks)
                 {
-                    var t1 = new Task(() => { MergeSortMT(array, lowIndex, middleIndex); });
-                    var t2 = new Task(() => { MergeSortMT(array, middleIndex + 1, highIndex); });
+                    var t1 = new Task(() => { MergeSortMT(array, lowIndex, middleIndex, mtCount >= mtMax); });
+                    var t2 = new Task(() => { MergeSortMT(array, middleIndex + 1, highIndex, mtCount >= mtMax); });
 
                     t1.Start();
                     Interlocked.Increment(ref mtCount);
@@ -230,8 +229,8 @@ namespace HomeAccounting.Tpl
                 }
                 else
                 {
-                    MergeSort(array, lowIndex, middleIndex);
-                    MergeSort(array, middleIndex + 1, highIndex);
+                    MergeSortMT(array, lowIndex, middleIndex, true);
+                    MergeSortMT(array, middleIndex + 1, highIndex, true);
                 }
 
                 Merge(array, lowIndex, middleIndex, highIndex);
