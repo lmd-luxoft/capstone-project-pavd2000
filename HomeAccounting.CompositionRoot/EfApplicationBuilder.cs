@@ -19,6 +19,7 @@ namespace HomeAccounting.CompositionRoot
         {
             _services.AddTransient<IAccountingService, AccountingService>();
             _services.AddTransient<IOperationService, OperationService>();
+            _services.AddTransient<ISendEmailService, SendEmailService>();
         }
 
         protected override void RegisterDataSource()

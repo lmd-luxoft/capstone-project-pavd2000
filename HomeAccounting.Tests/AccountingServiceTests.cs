@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HomeAccounting.Tests
 {
@@ -30,7 +31,7 @@ namespace HomeAccounting.Tests
         }
 
         [Test]
-        public void CreateSimpleAccountTest()
+        public async Task CreateSimpleAccountTest()
         {
             var accountModel = new AccountModel()
             {
@@ -38,12 +39,12 @@ namespace HomeAccounting.Tests
                 CreationDate = DateTime.Now,
                 Balance = 12.34M
             };
-            _accountingService.CreateAccount(accountModel);
+            await _accountingService.CreateAccount(accountModel);
             Assert.IsTrue(accountModel.Id > 0);
         }
 
         [Test]
-        public void CreatePropertyTest()
+        public async Task CreatePropertyTest()
         {
             var accountModel = new PropertyModel()
             {
@@ -54,12 +55,12 @@ namespace HomeAccounting.Tests
                 BasePrice = 34.56M,
                 PropertyType = PropertyType.Movable
             };
-            _accountingService.CreateAccount(accountModel);
+            await _accountingService.CreateAccount(accountModel);
             Assert.IsTrue(accountModel.Id > 0);
         }
 
         [Test]
-        public void CrudCashTest()
+        public async Task CrudCashTest()
         {
             var accountModel = new CashModel()
             {
@@ -70,25 +71,26 @@ namespace HomeAccounting.Tests
                 Monets = 6
             };
 
-            _accountingService.CreateAccount(accountModel);
+            await _accountingService.CreateAccount(accountModel);
             Assert.IsTrue(accountModel.Id > 0);
 
-            var accountModel2 = (CashModel) _accountingService.GetAccountById(accountModel.Id);
+            var accountModel2 = (CashModel)await _accountingService.GetAccountById(accountModel.Id);
             Assert.NotNull(accountModel2);
             accountModel2.Monets = 7;
-            _accountingService.UpdateAccount(accountModel2);
+            await _accountingService.UpdateAccount(accountModel2);
+            
 
-            var accountModel3 = (CashModel)_accountingService.GetAccountById(accountModel2.Id);
+            var accountModel3 = (CashModel)await _accountingService.GetAccountById(accountModel2.Id);
             Assert.AreEqual(7, accountModel3.Monets);
 
-            _accountingService.DeleteAccountById(accountModel3.Id);
+            await _accountingService.DeleteAccountById(accountModel3.Id);
 
-            var accountModel4 = _accountingService.GetAccountById(accountModel3.Id);
+            var accountModel4 = await _accountingService.GetAccountById(accountModel3.Id);
             Assert.Null(accountModel4);
         }
 
         [Test]
-        public void CreateDepositTest()
+        public async Task CreateDepositTest()
         {
             var accountModel = new DepositModel()
             {
@@ -96,7 +98,7 @@ namespace HomeAccounting.Tests
                 CreationDate = DateTime.Now,
                 Balance = 12.34M,
                 NumberOfBankAccount = "0000000000000000000",
-                Bank= new BankModel()
+                Bank = new BankModel()
                 {
                     BIK = "044525555",
                     Title = "ПСБ"
@@ -104,30 +106,30 @@ namespace HomeAccounting.Tests
                 Percent = 0.05M,
                 PercentType = PercentType.Fixed
             };
-            _accountingService.CreateAccount(accountModel);
+            await _accountingService.CreateAccount(accountModel);
             Assert.IsTrue(accountModel.Id > 0);
         }
-        
+
         [Test]
-        public void DbContextTest()
+        public async Task DbContextTest()
         {
-            using(var ctx = _contextFactory.CreateDbContext())
+            using (var ctx = _contextFactory.CreateDbContext())
             {
-                var account = ctx.Accounts.FirstOrDefault(x => x.Id == 14);
+                var account = await ctx.Accounts.FirstOrDefaultAsync(x => x.Id == 14);
                 Assert.NotNull(account);
             }
         }
 
         [Test]
-        public void SelectAccountsByFilterTest()
+        public async Task SelectAccountsByFilterTest()
         {
-            var accouts = _accountingService.SelectByFilter(new AccountModelFilter());
+            var accouts = await _accountingService.SelectByFilter(new AccountModelFilter());
             Assert.True(accouts.Count > 0);
         }
 
 
         [Test]
-        public void OperationCrudTest()
+        public async Task OperationCrudTest()
         {
             var accountModel1 = new AccountModel()
             {
@@ -136,7 +138,7 @@ namespace HomeAccounting.Tests
                 Balance = 12.34M,
                 Type = AccountType.Simple
             };
-            _accountingService.CreateAccount(accountModel1);
+            await _accountingService.CreateAccount(accountModel1);
             Assert.IsTrue(accountModel1.Id > 0);
 
             var accountModel2 = new AccountModel()
@@ -146,7 +148,7 @@ namespace HomeAccounting.Tests
                 Balance = 23.45M,
                 Type = AccountType.Simple
             };
-            _accountingService.CreateAccount(accountModel2);
+            await _accountingService.CreateAccount(accountModel2);
             Assert.IsTrue(accountModel2.Id > 0);
 
             var operationModel = new OperationModel
@@ -157,25 +159,25 @@ namespace HomeAccounting.Tests
                 ExecutionDate = DateTime.Now
             };
 
-            _operationService.Create(operationModel);
+            await _operationService.Create(operationModel);
 
             Assert.IsTrue(operationModel.Id > 0);
 
-            var operationModel2 = _operationService.GetById(operationModel.Id);
+            var operationModel2 = await _operationService.GetById(operationModel.Id);
             Assert.NotNull(operationModel2);
 
-            var list = _operationService.SelectByFilter(new OperationModelFilter());
+            var list = await _operationService.SelectByFilter(new OperationModelFilter());
             Assert.IsTrue(list.Count > 0);
 
-            _operationService.DeleteById(operationModel.Id);
+            await _operationService.DeleteById(operationModel.Id);
 
-            var operationModel3 = _operationService.GetById(operationModel.Id);
+            var operationModel3 = await _operationService.GetById(operationModel.Id);
             Assert.Null(operationModel3);
         }
 
         [Test]
         [Ignore("Использовать для массовой генерации проводок")]
-        public void CreateOperationsTest()
+        public async Task CreateOperationsTest()
         {
             for (int i = 0; i < 10; i++)
             {
@@ -188,7 +190,7 @@ namespace HomeAccounting.Tests
                     Monets = 6
                 };
 
-                _accountingService.CreateAccount(accountModel1);
+                await _accountingService.CreateAccount(accountModel1);
                 Assert.IsTrue(accountModel1.Id > 0);
 
                 var accountModel2 = new DepositModel()
@@ -205,7 +207,7 @@ namespace HomeAccounting.Tests
                     Percent = 0.05M,
                     PercentType = PercentType.Fixed
                 };
-                _accountingService.CreateAccount(accountModel2);
+                await _accountingService.CreateAccount(accountModel2);
                 Assert.IsTrue(accountModel2.Id > 0);
 
                 var accountModel3 = new PropertyModel()
@@ -217,7 +219,7 @@ namespace HomeAccounting.Tests
                     BasePrice = 34.56M,
                     PropertyType = PropertyType.Movable
                 };
-                _accountingService.CreateAccount(accountModel3);
+                await _accountingService.CreateAccount(accountModel3);
                 Assert.IsTrue(accountModel3.Id > 0);
 
                 var operationModel = new OperationModel
@@ -228,7 +230,7 @@ namespace HomeAccounting.Tests
                     ExecutionDate = DateTime.Now
                 };
 
-                _operationService.Create(operationModel);
+                await _operationService.Create(operationModel);
 
                 var operationModel2 = new OperationModel
                 {
@@ -237,7 +239,7 @@ namespace HomeAccounting.Tests
                     Amount = 1M,
                     ExecutionDate = DateTime.Now
                 };
-                _operationService.Create(operationModel2);
+                await _operationService.Create(operationModel2);
                 Assert.IsTrue(operationModel2.Id > 0);
 
                 var operationModel3 = new OperationModel
@@ -248,7 +250,7 @@ namespace HomeAccounting.Tests
                     ExecutionDate = DateTime.Now
                 };
 
-                _operationService.Create(operationModel3);
+                await _operationService.Create(operationModel3);
 
                 var operationModel4 = new OperationModel
                 {
@@ -257,17 +259,17 @@ namespace HomeAccounting.Tests
                     Amount = 1M,
                     ExecutionDate = DateTime.Now
                 };
-                _operationService.Create(operationModel4);
+                await _operationService.Create(operationModel4);
 
-                var list = _operationService.SelectByFilter(new OperationModelFilter());
+                var list = await _operationService.SelectByFilter(new OperationModelFilter());
                 Assert.IsTrue(list.Count > 0);
             }
         }
 
         [Test]
-        public void AccountBalanceReportTest()
+        public async Task AccountBalanceReportTest()
         {
-            var balance = _operationService.AccountBalanceReport(28);
+            var balance = await _operationService.AccountBalanceReport(28);
             Assert.NotNull(balance);
         }
 

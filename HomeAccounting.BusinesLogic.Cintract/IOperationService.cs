@@ -2,17 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HomeAccounting.BusinesLogic.Contract
 {
     public interface IOperationService
     {
-        void Create(OperationModel operationModel);
-        void Update(OperationModel operationModel);
-        void DeleteById(int id);
-        OperationModel GetById(int id);
-        List<OperationModel> SelectByFilter(OperationModelFilter filter);
+        Task Create(OperationModel operationModel);
+        Task Update(OperationModel operationModel);
+        Task DeleteById(int id);
+        Task<OperationModel> GetById(int id);
+        Task<List<OperationModel>> SelectByFilter(OperationModelFilter filter);
 
-        decimal AccountBalanceReport(int accountId);
+        Task<decimal> AccountBalanceReport(int accountId);
     }
 }

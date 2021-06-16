@@ -24,15 +24,15 @@ namespace HomeAccounting.Angular.UI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<AccountModel> Get()
+        public async Task<IEnumerable<AccountModel>> Get()
         {
-            return _accountsService.SelectByFilter(new AccountModelFilter());
+            return await _accountsService.SelectByFilter(new AccountModelFilter());
         }
 
         [HttpGet("{id:int}")]
-        public AccountModel Get(int id)
+        public async Task<AccountModel> Get(int id)
         {
-            return _accountsService.GetAccountById(id);
+            return await _accountsService.GetAccountById(id);
         }
 
         [HttpPost("{id:int}")]

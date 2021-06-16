@@ -2,16 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HomeAccounting.BusinesLogic.Contract
 {
     public interface IAccountingService
     {
-        void CreateAccount(AccountModel account);
-        void UpdateAccount(AccountModel account);
-        void DeleteAccountById(int id);
-        AccountModel GetAccountById(int id);
-        List<AccountModel> SelectByFilter(AccountModelFilter filter);
+        Task CreateAccount(AccountModel account);
+        Task UpdateAccount(AccountModel account);
+        Task DeleteAccountById(int id);
+        Task<AccountModel> GetAccountById(int id);
+        Task<List<AccountModel>> SelectByFilter(AccountModelFilter filter);
 
     }
 }

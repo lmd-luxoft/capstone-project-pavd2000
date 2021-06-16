@@ -12,94 +12,92 @@ namespace HomeAccounting.BusinesLogic.EF.ApplicationLogic
 {
     public class OperationService : IOperationService
     {
-        IDbContextFactory<DomainContext> _contextFactory;
-        public OperationService(IDbContextFactory<DomainContext> contextFactory)
+        private readonly IDbContextFactory<DomainContext> _contextFactory;
+        private readonly ISendEmailService _sendEmailService;
+
+        public OperationService(IDbContextFactory<DomainContext> contextFactory, ISendEmailService sendEmailService)
         {
             _contextFactory = contextFactory;
+            _sendEmailService = sendEmailService;
         }
 
-        public void Create(OperationModel operationModel)
+        public async Task Create(OperationModel operationModel)
         {
             using (var ctx = _contextFactory.CreateDbContext())
             {
                 var operation = MappingService.MapOperationModelToOperation(operationModel);
                 ctx.Attach(operation.FromAccount);
                 ctx.Attach(operation.ToAccount);
-                ctx.Add(operation);
-                ctx.SaveChanges();
+                await ctx.AddAsync(operation);
+                await ctx.SaveChangesAsync();
                 operationModel.Id = operation.Id;
             }
+            _ = _sendEmailService.SendEmail("bill@microsoft.com", $"Создана операция с Id {operationModel.Id}");
         }
 
-        public void DeleteById(int id)
+        public async Task DeleteById(int id)
         {
             using (var ctx = _contextFactory.CreateDbContext())
             {
                 var operation = new Operation { Id = id };
                 ctx.Attach(operation);
                 ctx.Remove(operation);
-                ctx.SaveChanges();
+                await ctx.SaveChangesAsync();
             }
         }
 
-        public OperationModel GetById(int id)
+        public async Task<OperationModel> GetById(int id)
         {
             using (var ctx = _contextFactory.CreateDbContext())
             {
-                var operation = ctx.Operations.Include(x => x.FromAccount).Include(y => y.ToAccount).FirstOrDefault(z => z.Id == id);
+                var operation = await ctx.Operations.Include(x => x.FromAccount).Include(y => y.ToAccount).FirstOrDefaultAsync(z => z.Id == id);
                 return MappingService.MapOperationToOperationModel(operation);
             }
         }
 
-        public List<OperationModel> SelectByFilter(OperationModelFilter filter)
+        public async Task<List<OperationModel>> SelectByFilter(OperationModelFilter filter)
         {
             using (var ctx = _contextFactory.CreateDbContext())
             {
                 var operations = ctx.Operations.Include(x => x.FromAccount).Include(y => y.ToAccount).AsQueryable();
                 operations.OrderByDescending(x => x.Id);
                 operations.Skip((filter.Page - 1) * filter.OnPage).Take(filter.OnPage);
-                return operations.ToList().Select(x => MappingService.MapOperationToOperationModel(x)).ToList();
+                return (await operations.ToListAsync()).Select(x => MappingService.MapOperationToOperationModel(x)).ToList();
             }
         }
 
-        public void Update(OperationModel operationModel)
+        public async Task Update(OperationModel operationModel)
         {
             using (var ctx = _contextFactory.CreateDbContext())
             {
                 var operation = MappingService.MapOperationModelToOperation(operationModel);
                 ctx.Attach(operation);
                 ctx.Update(operation);
-                ctx.SaveChanges();
+                await ctx.SaveChangesAsync();
             }
         }
 
 
-        private decimal GetAccountIncrese(int accountId)
+        private async Task<decimal> GetAccountIncrese(int accountId)
         {
             using (var ctx = _contextFactory.CreateDbContext())
             {
-                return ctx.Operations.Where(x => x.ToAccount.Id == accountId).Select(x => x.Amount).Sum();
-
+                return await ctx.Operations.Where(x => x.ToAccount.Id == accountId).Select(x => x.Amount).SumAsync();
             }
         }
 
-        private decimal GetAccountDecrese(int accountId)
+        private async Task<decimal> GetAccountDecrese(int accountId)
         {
             using (var ctx = _contextFactory.CreateDbContext())
             {
-                return ctx.Operations.Where(x => x.FromAccount.Id == accountId).Select(x => x.Amount).Sum();
+                return await ctx.Operations.Where(x => x.FromAccount.Id == accountId).Select(x => x.Amount).SumAsync();
             }
         }
 
-        public decimal AccountBalanceReport(int accountId)
-        {
-            var t1 = new Task<decimal>(() => { return GetAccountIncrese(accountId); });
-            var t2 = new Task<decimal>(() => { return GetAccountDecrese(accountId); });
-            var t3 = Task.WhenAll(t1, t2);
-            t1.Start(); 
-            t2.Start();
-            t3.Wait();
-            return t1.Result - t2.Result;
+        public async Task<decimal> AccountBalanceReport(int accountId)
+        { 
+            var result = await Task.WhenAll(GetAccountIncrese(accountId), GetAccountDecrese(accountId));
+            return result[0] - result[1];
         }
 
     }

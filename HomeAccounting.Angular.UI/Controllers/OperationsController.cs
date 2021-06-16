@@ -24,9 +24,9 @@ namespace HomeAccounting.Angular.UI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<OperationModel> Get()
+        public async Task<IEnumerable<OperationModel>> Get()
         {
-            return _operationService.SelectByFilter(new OperationModelFilter());
+            return await _operationService.SelectByFilter(new OperationModelFilter());
         }
     }
 }
