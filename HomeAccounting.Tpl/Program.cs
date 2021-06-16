@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HomeAccounting.Tpl
@@ -8,9 +9,12 @@ namespace HomeAccounting.Tpl
     {
         static void Main(string[] args)
         {
-            var array = GenerateArray(100);
-            MergeSortArray(array);
-            MergeSortArrayMT(array);
+            var array1 = GenerateArray(1000000); // new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };  //;
+            var array2 = new int[array1.Length];
+             Array.Copy(array1, array2, array1.Length);
+            //GenerateArray(1000);
+            MergeSortArray(array1);
+            MergeSortArrayMT(array2);
             //QuadraticEquation();
             Console.WriteLine("Press any key to exit the process...");
             Console.ReadKey();
@@ -23,10 +27,11 @@ namespace HomeAccounting.Tpl
             var initialDate = DateTime.Now;
             Console.WriteLine($"start MergeSortArrayMT");
             //var array = GenerateArray(100);///new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };
-            Console.WriteLine($"initial array: {string.Join(", ", array)}");
+           // Console.WriteLine($"initial array: {string.Join(", ", array)}");
             var resultingArray = MergeSortMT(array);
             var finalDate = DateTime.Now;
-            Console.WriteLine($"Run tyme (millisec): {(finalDate - initialDate).TotalMilliseconds}; sorted array: { string.Join(", ", resultingArray)}");
+            //Console.WriteLine($"sorted array: { string.Join(", ", resultingArray)}");
+            Console.WriteLine($"Run tyme (millisec): {(finalDate - initialDate).TotalMilliseconds}");
         }
 
         public static int[] GenerateArray(int n)
@@ -46,10 +51,12 @@ namespace HomeAccounting.Tpl
             var initialDate = DateTime.Now;
             Console.WriteLine($"start MergeSortArray");
            // var array = new[] { 1, 9, 2, 8, 3, 7, 5, 6, 10, 20, 11, 19, 12, 18, 13, 17, 14, 16, 15 };
-            Console.WriteLine($"initial array: {string.Join(", ", array)}");
+            //Console.WriteLine($"initial array: {string.Join(", ", array)}");
             var resultingArray = MergeSort(array);
             var finalDate = DateTime.Now;
-            Console.WriteLine($"Run tyme (millisec): {(finalDate - initialDate).TotalMilliseconds}; sorted array: { string.Join(", ", resultingArray)}");
+            //Console.WriteLine($"sorted array: { string.Join(", ", resultingArray)}");
+            Console.WriteLine($"Run tyme (millisec): {(finalDate - initialDate).TotalMilliseconds}");
+
         }
 
 
@@ -197,24 +204,34 @@ namespace HomeAccounting.Tpl
             return array;
         }
 
+        public static int mtCount;
+
         //сортировка слиянием многопоточная
         static int[] MergeSortMT(int[] array, int lowIndex, int highIndex)
         {
             if (lowIndex < highIndex)
             {
                 var middleIndex = (lowIndex + highIndex) / 2;
-                Task t1 = Task.Run(() =>
-                {
-                    MergeSortMT(array, lowIndex, middleIndex);
-                });
 
-                Task t2 = Task.Run(() =>
+                if (mtCount <= 4)
                 {
-                    MergeSortMT(array, middleIndex + 1, highIndex);
-                });
+                    var t1 = new Task(() => { MergeSortMT(array, lowIndex, middleIndex); });
+                    var t2 = new Task(() => { MergeSortMT(array, middleIndex + 1, highIndex); });
 
-                var t3 = Task.WhenAll(t1, t2);
-                t3.Wait();
+                    t1.Start();
+                    Interlocked.Increment(ref mtCount);
+                    t2.Start();
+                    Interlocked.Increment(ref mtCount);
+                    var t3 = Task.WhenAll(t1, t2);
+                    t3.Wait();
+                    Interlocked.Decrement(ref mtCount);
+                    Interlocked.Decrement(ref mtCount);
+                }
+                else
+                {
+                    MergeSort(array, lowIndex, middleIndex);
+                    MergeSort(array, middleIndex + 1, highIndex);
+                }
 
                 Merge(array, lowIndex, middleIndex, highIndex);
             }
